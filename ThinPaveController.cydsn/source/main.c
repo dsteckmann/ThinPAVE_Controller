@@ -357,7 +357,7 @@ int main() { //initialization and main loop
                       refresh = TRUE;
                       break;
             case ENTER:
-                      #if 1
+                      #if 0
                       {
                         uint8 flag;
                         Spec_flags.recall_flag = FALSE;
@@ -379,16 +379,30 @@ int main() { //initialization and main loop
                       }  
                       break;
                     #else
-                     while ( getLastKey() == ENTER)   //start another count if enter is pressed
-                     { 
-                         Spec_flags.recall_flag = FALSE;
-                         measurePulses6Tubes( ) ;
-                     }  
-                     refresh = TRUE;
-                     Flags.button_pressed = TRUE;
-                     break;
-                      
-                     #endif
+                      while ( getLastKey() == ENTER)   //start another count if enter is pressed
+                      { 
+                        // App may ask for a recall. The flag is set when this happens.
+                        if ( g_recall_flag == TRUE )
+                        {
+                          g_recall_flag   = FALSE;
+                          Spec_flags.recall_flag = TRUE;    
+                          wait_for_key_release();                           
+                          measureDensity();        // the last reading will be recalled.
+                          Spec_flags.recall_flag = FALSE;     
+                        }
+                        else
+                        {
+                          Spec_flags.recall_flag = FALSE;
+                          if ( measureDensity( ) == 0 )
+                          {
+                           break;
+                          }
+                        }
+                      }  
+                     #endif 
+                      refresh = TRUE;
+                      Flags.button_pressed = TRUE;
+                      break;
             default:  
                       delay_ms(10);
                       break;          
