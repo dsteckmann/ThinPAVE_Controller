@@ -19,7 +19,7 @@
  void BT_Disable(bool verbal);
  void doBluetooth();
  void sendPcStr(char *str);
- void sendBlueResults( station_data_t station_d ) ;
+ //void sendBlueResults( station_data_t station_d ) ;
  
 #endif
 

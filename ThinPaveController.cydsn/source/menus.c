@@ -132,7 +132,7 @@ void main_menu(void)  // controls the main menu, (MENU button initiates)
           case 16:  enter_cal_const();                break;  // manually enter calibration constants from gauge   
           case 17:  enable_disable_features('D');     break;  // auto depth 
           case 18:  select_measurement_mode();        break;  // Main mode, Metal Density, Profile
-          case 27:  SendBleConstants();               break;  //
+          case 27:  SendBleConstants(0x79);           break;  // CMD_SEND_CC
           case 22:  SendBleSn();                      break;  //
           case 21:  select_mode();                    break;  // Smart MC Mode
         }

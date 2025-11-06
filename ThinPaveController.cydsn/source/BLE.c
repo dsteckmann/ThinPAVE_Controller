@@ -111,8 +111,8 @@ void SendBLEData(station_data_t * ble_data, bool isRecall) {
  *  Name:           SendBLEDataCC
  *  DESCRIPTION:    Sends EepromData Constants to the BLE module
  *****************************************************************************/ 
-void SendBleConstants(void) {
-  uint8 cs_a = 0,cs_b = 0  ;
+void SendBleConstants(uint8 cmd) {
+  uint8 cs_a,cs_b;
   uint16 len = sizeof(constants_t); // including extra bytes for new Serial Number
   uint8  lsb_len,msb_len;
   uint8 array[400]; // add all of the date to the array before transmitting the data
@@ -120,15 +120,15 @@ void SendBleConstants(void) {
   #define extra_bytes 0
   lsb_len = (uint8)((len +extra_bytes) & 0x00FF);
   msb_len = (uint8)(((len+extra_bytes)>>8) & 0x00FF);
-  cs_a += ACK_FLAG_CC; // add the ID to the Cs.
-  cs_b += cs_a;
+  cs_a = cmd; // add the ID to the Cs.
+  cs_b = cs_a;
   cs_a += lsb_len; // add the lsb_len byte to the Cs.
   cs_b += cs_a;
   cs_a += msb_len; // add the msb_len byte to the Cs.
   cs_b += cs_a;
   array[index++] = ( BEGIN_FLAG_0 );  
   array[index++] = ( BEGIN_FLAG_1 );
-  array[index++] = ( ACK_FLAG_CC );
+  array[index++] = ( cmd );
   array[index++] = ( lsb_len );
   array[index++] = ( msb_len );
   uint8* const_ptr = (uint8*)(&eepromData.Constants); // add the payload to the cs.

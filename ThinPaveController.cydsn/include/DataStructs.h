@@ -138,7 +138,7 @@ typedef struct eepromData_s
   uint8        temp[50]           ;         // future use
   uint8_t      intialized;
 
- } EEPROM_DATA_t; ;
+ } EEPROM_DATA_t;
 
 typedef struct 
 {

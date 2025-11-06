@@ -456,6 +456,6 @@ extern void measurePulsesForDensity ( uint32_t * density_2_count, uint32_t * den
 void changeMonthDayOrder ( void );
 void changeAMPM_24Hour ( void );
 void enterTimeDate ( void );
-void SendBleConstants(void) ;
+void SendBleConstants(uint8 cmd) ;
 
 #endif /* endif !GLOBALS_H for "if we haven't included this file already..."    */

@@ -49,7 +49,7 @@ typedef struct
   uint8_t     station_auto           ;     // auto number enabled 
   uint16_t    station_number         ;     // total number of stations within project, will also tell station index
   uint8       station_measurement_mode;
-  station_data_t  station[MAX_STATIONS] ;    // station data
+  station_data_t  station[MAX_STATIONS] ;    // 100 ? station data ? 100 * 102 = 10,200 bytes
 } project_data_t;
 
 

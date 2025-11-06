@@ -221,20 +221,22 @@ bool checkForValidID ( uint8 ID )
 	}// end switch
  }
 /* ***********  process the data payload ************************************
- Currently, the station_data and the Gauge constants are sent after areading
+ Currently, the station_data and the Gauge constants are sent after areading NOT TRUE!
  So, along with the GGA data, there are only three packets.
  The serial number packet is also sent when the serial number is changed, but
  THis will be implented after the other packets are implemented.*/
 void processPacketStream ( void )
 { // process the packet based on the packet ID.
   switch ( ID ) {
-    case CMD_SEND_CC: SendBleConstants() ; break;  // send BLE constants
+    case CMD_SEND_CC: SendBleConstants(CMD_SEND_CC) ; break;  // send BLE constants
     case CMD_REMOTE_START: g_remote_start_flag = TRUE; break;
     case CMD_REMOTE_RECALL: g_remote_recall_flag = TRUE; break;
     case CMD_SET_CC:  { //uint16 size = sizeof(constants_t);
         constants_t const_data;
-	    memcpy ( &const_data, packet_buffer, length ); // copy the byte array into the station data struct.
-        CyDelay ( 1 );
+	    memcpy ( &const_data, packet_buffer, length ); // copy the byte array into the station data struct.eepromData.Constants
+        SavePartialEepromData((uint8*)&const_data, sizeof(constants_t), offsetof( EEPROM_DATA_t,Constants));
+        EEpromReadArray((uint8*)&eepromData.Constants, sizeof(constants_t), offsetof( EEPROM_DATA_t,Constants));
+        SendBleConstants(ACK_FLAG_CC);
     }
     break;
     default: PacketProcessed = true; break;
