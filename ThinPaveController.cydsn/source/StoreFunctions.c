@@ -33,7 +33,7 @@
 extern float convertKgM3DensityToUnitDensity ( float value_in_kg, uint8_t units );
 extern  uint8_t getCalibrationDepth ( uint8_t depth_inches );
 extern uint32 getSerialNumber ( void );
-extern char select_measurement_mode(void);
+extern void select_measurement_mode(void);
 
 /************************************* EXTERNAL VARIABLE AND BUFFER DECLARATIONS  *************************************/
 project_info_t project_info;
@@ -251,8 +251,7 @@ void start_new_project ( void )  // leads user through setup for new project
             break;
      case 6:
           // Measurement Type by default is Normal
-          mode = select_measurement_mode();
-          setStationMeasureMode ( project, mode );  
+          select_measurement_mode();
           go_to_screen = 2;        // if not, stay on enter name screen.
           break;            
     }

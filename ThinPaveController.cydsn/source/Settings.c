@@ -849,35 +849,35 @@ void offset(void)  // leads user through process to enable/disable or enter offs
  *
  *****************************************************************************/ 
  
-char select_measurement_mode(void)
+void select_measurement_mode(void)
 {
   enum buttons button;
   uint8 mode = NORMAL_DENSITY_MODE;
-  select_measurement_mode_text();  //TEXT// display "1. Normal\n2. Metal" \n. Metal LINE1,2,3
+  select_measurement_mode_text();  //TEXT// display "1. Density Profile \n2. Metal Mode" 
 
   up_down_select_text(0);  //TEXT// display "Select #, ESC Exit"
 
   while(1)
   {
    button = getKey ( TIME_DELAY_MAX );
-    if((button == 1) || (button == 2) || (button == 3) || (button == ESC) || (button == MENU))
+    if((button == 1) || (button == 2) || (button == ESC) || (button == MENU))
     {
       break;
     }    
   }
-  if(button > 3)  //ESC or MENU pressed
+  if(button > 2)  //ESC or MENU pressed
   {
     NV_MEMBER_STORE(measure_mode,mode);  //save settings to EEPROM
-    return mode; // Default to normal mode i
+    return; // Default to normal mode i
   }    
-  else if(button == 1)  // Normal Mode selected
+  else if(button == 1)  // Profile Mode Selected               
   {
     CLEAR_DISP;
     if ( Features.language_f )
-      LCD_PrintAtPositionCentered("Normal Density Mode",LINE2+10);
-    else
-      LCD_PrintAtPositionCentered("Modo de Dens. Normal",LINE2+10);
-    mode = NORMAL_DENSITY_MODE;
+      LCD_PrintAtPositionCentered("Dens. Profile Mode",LINE2+10);
+    else      
+      LCD_PrintAtPositionCentered("Modo de Dens. Perfil",LINE2+10);      
+    mode = PROFILE_DENSITY_MODE;    
   }    
   else if(button == 2)  // Metal Mode selected                
   {
@@ -888,19 +888,49 @@ char select_measurement_mode(void)
       LCD_PrintAtPositionCentered("Modo de Dens. Metal",LINE2+10);
     mode = METAL_DENSITY_MODE;
   }    
-  else if(button == 3)  // Metal Mode selected                
-  {
-    CLEAR_DISP;
-    if ( Features.language_f )
-      LCD_PrintAtPositionCentered("Dens. Profile Mode",LINE2+10);
-    else      
-      LCD_PrintAtPositionCentered("Modo de Dens. Perfil",LINE2+10);      
-    mode = PROFILE_DENSITY_MODE;    
-  }    
-  
+
   NV_MEMBER_STORE(measure_mode,mode);  //save settings to EEPROM
-  delay_ms ( 1000 );
-  return mode;
+  
+  if ( mode == PROFILE_DENSITY_MODE )
+  {
+    // Recalling last 
+    // Measurement
+    // using Profile Mode
+    profile_recall_text();
+    delay_ms ( 1500 );
+    Spec_flags.recall_flag = TRUE;                               
+    measureDensity();  
+    Spec_flags.recall_flag = FALSE;    
+  }  
+  else if ( mode == PROFILE_DENSITY_MODE )
+  {
+    while ( 1 )
+    {
+      // Metal Mode
+      // Press Start 
+      // to take Reading
+      // <ESC> to Exit
+      metal_modes_start_text();
+      while(1)
+      {
+        button = getKey ( TIME_DELAY_MAX );
+        if((button == ENTER) || (button == ESC))
+        {
+          break;
+        }    
+      }
+      if ( button == ESC )
+      {
+        break;
+      }
+      else
+      {
+        measureDensity(); 
+      }
+    } 
+  }
+  mode = NORMAL_DENSITY_MODE;
+  NV_MEMBER_STORE(measure_mode,mode);  //save settings to EEPROM
 }
 
 

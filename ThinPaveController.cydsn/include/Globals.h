@@ -41,7 +41,7 @@
   
 // VERSION
 
-#define VERSION 1.07 // THIS IS NOT THE BLE VERSION!
+#define VERSION 1.08 // THIS IS NOT THE BLE VERSION!
 
 #define DEL_SIG 1
    

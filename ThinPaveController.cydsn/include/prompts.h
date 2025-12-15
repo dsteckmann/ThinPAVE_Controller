@@ -212,6 +212,8 @@ void gauge_in_bs_text(void);
 void Press_Start_to_Test_text ( BYTE position );
 void Recharge_Battery_text ( BYTE position );
 void error_in_measurement_mode_text ( void );
+void metal_modes_start_text();
+void profile_recall_text();
 #endif
 
 

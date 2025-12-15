@@ -125,7 +125,7 @@ void display_version(void) {
   struct features_struct  Feat        =  NV_RAM_MEMBER_RD(FEATURE_SETTINGS); 
   CLEAR_DISP;
   CtrStrC("ThinPAVE",0);
-  CtrStrC("Version 1.07",LINE2);
+  CtrStrC("Version 1.08",LINE2);
   
   if (Feat.dummy_mode == TRUE )
   { 
@@ -222,9 +222,9 @@ void main_menu_display(uint8_t menu_trk)   // display for the main menu
            break;    
           
       case 0:
-          _LCD_PRINT("17. Auto Depth    ");
+          _LCD_PRINT("17.Auto Depth    ");
            LCD_position(LINE2);
-          _LCD_PRINT("18. Measurement Mode");
+          _LCD_PRINT("18.Special Functions");
            break;    
           
           
@@ -278,9 +278,9 @@ void main_menu_display(uint8_t menu_trk)   // display for the main menu
             _LCD_PRINT("16. Const. de Calib.    ");   //  Cal constants
             break;  
       case 0:
-          _LCD_PRINT("17. Modo profundidad");
+          _LCD_PRINT("17.Modo profundidad");
            LCD_position(LINE2);
-          _LCD_PRINT("18. Modo de Medicion");
+          _LCD_PRINT("18.Func. especiales");
            break;    
                       
 
@@ -2496,22 +2496,85 @@ void select_measurement_mode_text()
   LCD_position(LINE1); 
   if(Features.language_f)
   {
-    _LCD_PRINT("1. Normal Density");
+    _LCD_PRINT("1. Density Profile");
     LCD_position(LINE2);
     _LCD_PRINT("2. Metal Density");
-    LCD_position(LINE3);
-    _LCD_PRINT("3. Density Profile");
-    
   }
     else
     {
-    _LCD_PRINT("1. Normal Densidad");
-    LCD_position(LINE2);
-    _LCD_PRINT("2. Metal Densidad");
-    LCD_position(LINE3);
-    _LCD_PRINT("3. Densidad Perfil");
+      _LCD_PRINT("1. Densidad Perfil");
+      LCD_position(LINE2);
+      _LCD_PRINT("2. Metal Densidad");
     }
 }
+
+
+
+LCDSTRING const m_recall_last       = { 10, "Recalling last" };       
+LCDSTRING const m_measurement       = { 10, "Measurement" };   
+LCDSTRING const m_UseProfileMode    = { 10, "using Profile Mode" };   
+
+LCDSTRING const m_recall_last_sp       = { 10, "Recordando la ultima" };       
+LCDSTRING const m_measurement_sp       = { 10, "Medicion utilizando" };   
+LCDSTRING const m_UseProfileMode_sp    = { 10, "el modo de Perfil" };   
+       
+
+// Recalling last
+// Measurement 
+// using Profile Mode
+// 
+void profile_recall_text()
+{                                                        
+  CLEAR_DISP;
+  if(Features.language_f)
+  {
+    displine (LINE1,&m_recall_last,1 );
+    displine (LINE2,&m_measurement,1 );
+    displine (LINE3,&m_UseProfileMode,1 );
+  }
+  else
+  {
+    displine (LINE1,&m_recall_last_sp,1 );
+    displine (LINE2,&m_measurement_sp,1 );
+    displine (LINE3,&m_UseProfileMode_sp,1 );
+  }
+}
+
+
+
+
+LCDSTRING const m_Metal_Mode        = { 10, "Metal Mode" };       
+LCDSTRING const m_TakeReading       = { 10, "to take Reading" };       
+LCDSTRING const m_Metal_Mode_sp     = { 10, "Modo Metal" };       
+LCDSTRING const m_TakeReading_sp    = { 0, "para tomar la lect." };       
+
+// Metal Mode
+// Press Start 
+// to take Reading
+// <ESC> to Exit
+void metal_modes_start_text()
+{                                                        
+  CLEAR_DISP;
+  LCD_position(LINE1); 
+  if(Features.language_f)
+  {
+    displine (LINE1,&m_Metal_Mode,1 );
+    displine (LINE2,&PressStart,1 );
+    displine (LINE3,&m_TakeReading,1 );
+    displine (LINE4,&EscToExit,1 );
+  }
+  else
+  {
+    displine (LINE1,&m_Metal_Mode_sp,1 );
+    displine (LINE2,&PressStart_sp,1 );
+    displine (LINE3,&m_TakeReading_sp,1 );
+    displine (LINE4,&EscToExit_sp,1 );
+  }
+}
+
+
+
+
 
 
 void count_text(BYTE source)
