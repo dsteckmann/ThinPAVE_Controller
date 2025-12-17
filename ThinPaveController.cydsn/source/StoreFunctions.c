@@ -251,7 +251,7 @@ void start_new_project ( void )  // leads user through setup for new project
             break;
      case 6:
           // Measurement Type by default is Normal
-          select_measurement_mode();
+         // select_measurement_mode();
           go_to_screen = 2;        // if not, stay on enter name screen.
           break;            
     }

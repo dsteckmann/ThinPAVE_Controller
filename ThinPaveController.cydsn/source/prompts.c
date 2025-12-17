@@ -4,16 +4,16 @@
 #include "LCD_drivers.h"
 #include "prompts.h"
 
-LCDSTRING const PressStart        = {  0, "Press <START>" };       // Press <START>
-LCDSTRING const mYesToChange      = {  0, "  <YES> to Change  " }; 
+LCDSTRING const PressStart        = {  10, "Press <START>" };       // Press <START>
+LCDSTRING const mYesToChange      = {  10, "  <YES> to Change  " }; 
 LCDSTRING const EnterToAccept     = { 10, "<ENTER> to Accept" };   // <ENTER> to Accept
 LCDSTRING const EnterValueFor     = {  0, "Enter Value for " };   
 LCDSTRING const YesToAccept       = { 10, "<YES> to Accept" };   
 LCDSTRING const EscToExit         = { 10, "<ESC> to Exit" };       // <ESC> to Exit
 LCDSTRING const PressEnter        = { 10, "Press <ENTER>" };       // Press <ENTER>
 
-LCDSTRING const PressStart_sp     = {  0, "Pulse <START>" };       // Press <START>
-LCDSTRING const mYesToChange_sp   = {  0, "  <YES> Cambiar  " }; 
+LCDSTRING const PressStart_sp     = {  10, "Pulse <START>" };       // Press <START>
+LCDSTRING const mYesToChange_sp   = { 10, "  <YES> Cambiar  " }; 
 LCDSTRING const EnterToAccept_sp  = {  0, "<ENTER> para aceptar" };   // <ENTER> to Accept
 LCDSTRING const EnterValueFor_sp  = {  0, "Entre el Valor de" };   
 LCDSTRING const YesToAccept_sp    = { 10, "<YES> para Aceptar" };   
@@ -2528,15 +2528,15 @@ void profile_recall_text()
   CLEAR_DISP;
   if(Features.language_f)
   {
-    displine (LINE1,&m_recall_last,1 );
-    displine (LINE2,&m_measurement,1 );
-    displine (LINE3,&m_UseProfileMode,1 );
+    displine (0,&m_recall_last,1 );
+    displine (1,&m_measurement,1 );
+    displine (2,&m_UseProfileMode,1 );
   }
   else
   {
-    displine (LINE1,&m_recall_last_sp,1 );
-    displine (LINE2,&m_measurement_sp,1 );
-    displine (LINE3,&m_UseProfileMode_sp,1 );
+    displine (0,&m_recall_last_sp,1 );
+    displine (1,&m_measurement_sp,1 );
+    displine (2,&m_UseProfileMode_sp,1 );
   }
 }
 
@@ -2558,24 +2558,19 @@ void metal_modes_start_text()
   LCD_position(LINE1); 
   if(Features.language_f)
   {
-    displine (LINE1,&m_Metal_Mode,1 );
-    displine (LINE2,&PressStart,1 );
-    displine (LINE3,&m_TakeReading,1 );
-    displine (LINE4,&EscToExit,1 );
+    displine (0,&m_Metal_Mode,1 );
+    displine (1,&PressStart,1 );
+    displine (2,&m_TakeReading,1 );
+    displine (3,&EscToExit,1 );
   }
   else
   {
-    displine (LINE1,&m_Metal_Mode_sp,1 );
-    displine (LINE2,&PressStart_sp,1 );
-    displine (LINE3,&m_TakeReading_sp,1 );
-    displine (LINE4,&EscToExit_sp,1 );
+    displine (0,&m_Metal_Mode_sp,1 );
+    displine (1,&PressStart_sp,1 );
+    displine (2,&m_TakeReading_sp,1 );
+    displine (3,&EscToExit_sp,1 );
   }
 }
-
-
-
-
-
 
 void count_text(BYTE source)
 { 

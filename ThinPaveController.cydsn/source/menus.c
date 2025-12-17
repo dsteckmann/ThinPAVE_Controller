@@ -35,7 +35,7 @@
 #include "SDcard.h"
 
 extern void standCountMode(void);
-extern char select_measurement_mode(void);
+extern void special_functions(void);
 
 void enterTimeRTCI2C (void);
 void gps_test();
@@ -131,7 +131,7 @@ void main_menu(void)  // controls the main menu, (MENU button initiates)
           case 15:  enable_disable_features('B');     break;  // Buzzer
           case 16:  enter_cal_const();                break;  // manually enter calibration constants from gauge   
           case 17:  enable_disable_features('D');     break;  // auto depth 
-          case 18:  select_measurement_mode();        break;  // Main mode, Metal Density, Profile
+          case 18:  special_functions();        break;  // Main mode, Metal Density, Profile
           case 27:  SendBleConstants(0x79);           break;  // CMD_SEND_CC
           case 22:  SendBleSn();                      break;  //
           case 21:  select_mode();                    break;  // Smart MC Mode
