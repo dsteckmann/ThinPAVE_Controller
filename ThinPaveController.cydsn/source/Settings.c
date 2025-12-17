@@ -1377,4 +1377,72 @@ void changeAMPM_24Hour ( void )
   }
 
 }
+
+
+
+ /******************************************************************************
+ *  Name:
+ *  
+ *  PARAMETERS:None
+ *
+ *  DESCRIPTION: 
+ *
+ *  RETURNS: 
+ *
+ *****************************************************************************/ 
+ 
+char select_measurement_mode(void)
+{
+  enum buttons button;
+  uint8 mode = NORMAL_DENSITY_MODE;
   
+  
+  select_measurement_mode_text();  //TEXT// display "1. Normal\n2. Metal" \n. Metal LINE1,2,3
+
+  up_down_select_text(0);  //TEXT// display "Select #, ESC Exit"
+
+  while(1)
+  {
+   button = getKey ( TIME_DELAY_MAX );
+    if((button == 1) || (button == 2) || (button == 3) || (button == ESC) || (button == MENU))
+    {
+      break;
+    }    
+  }
+  if(button > 3)  //ESC or MENU pressed
+  {
+    NV_MEMBER_STORE(measure_mode,mode);  //save settings to EEPROM
+    return mode; // Default to normal mode i
+  }    
+  else if(button == 1)  // Normal Mode selected
+  {
+    CLEAR_DISP;
+    if ( Features.language_f )
+      LCD_PrintAtPositionCentered("Normal Density Mode",LINE2+10);
+    else
+      LCD_PrintAtPositionCentered("Modo de Dens. Normal",LINE2+10);
+    mode = NORMAL_DENSITY_MODE;
+  }    
+  else if(button == 2)  // Metal Mode selected                
+  {
+    CLEAR_DISP;
+    if ( Features.language_f )
+      LCD_PrintAtPositionCentered("Metal Density Mode",LINE2+10);
+    else      
+      LCD_PrintAtPositionCentered("Modo de Dens. Metal",LINE2+10);
+    mode = METAL_DENSITY_MODE;
+  }    
+  else if(button == 3)  // Metal Mode selected                
+  {
+    CLEAR_DISP;
+    if ( Features.language_f )
+      LCD_PrintAtPositionCentered("Dens. Profile Mode",LINE2+10);
+    else      
+      LCD_PrintAtPositionCentered("Modo de Dens. Perfil",LINE2+10);      
+    mode = PROFILE_DENSITY_MODE;    
+  }    
+  
+  NV_MEMBER_STORE(measure_mode,mode);  //save settings to EEPROM
+  delay_ms ( 1000 );
+  return mode;
+}

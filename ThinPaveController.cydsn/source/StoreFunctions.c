@@ -105,7 +105,7 @@ void start_new_project ( void )  // leads user through setup for new project
   char project[PROJ_NAME_LENGTH]  = NULL_NAME_STRING;
  //  char station_name[PROJ_NAME_LENGTH] = NULL_NAME_STRING;
   char num_temp[5] = "1";
-  char mode = NORMAL_DENSITY_MODE; 
+//  char mode = NORMAL_DENSITY_MODE; 
   
   SD_Wake();
   // loop until break
@@ -161,7 +161,7 @@ void start_new_project ( void )  // leads user through setup for new project
             project_name_text(project);  //TEXT// display "    Project Name\n    %s",project LINE2,3
             hold_buzzer();
             delay_ms(2000);
-            go_to_screen = 6; // Get measurement type (Normal,Metal,Profile )
+            go_to_screen = 2; 
             break;
      case 2:
             station_mode_text();    //TEXT// display "Station Name Mode\n1. Auto (sequential)\n2. Manual Entry" LINE1,2,3
@@ -249,11 +249,7 @@ void start_new_project ( void )  // leads user through setup for new project
             delay_ms(2000);
             escape = TRUE;
             break;
-     case 6:
-          // Measurement Type by default is Normal
-         // select_measurement_mode();
-          go_to_screen = 2;        // if not, stay on enter name screen.
-          break;            
+          
     }
   }
 }
@@ -1141,8 +1137,8 @@ Bool USB_write_file (  char * project , FILE_PARAMETERS * file)  // writes proje
   nullString( temp_str, sizeof(temp_str) );
   
  // check to see if project mode is metal,normal or profile 
- if ( review.mode != PROFILE_DENSITY_MODE )
- {
+ //if ( review.mode != PROFILE_DENSITY_MODE )
+ //{
     sprintf(temp_str,"Date, Serial Number, Station, DT,Density Offset, %%MA, MA, %%Voids,D1 Count,D2 Count, DCR1, DCR2, Density1 Std Cnt, DENS2 Std Cnt, Thickness,");
     sprintf(temp_val,"Const A1, Const B1, Const C1, Const A11, Const A12, Const A13, Const A2, Const B2, Const C2, Const A21, Const A22, Const A23,LAT,LNG,ALT\r\n");
     strcat(temp_str,temp_val);
@@ -1350,7 +1346,8 @@ Bool USB_write_file (  char * project , FILE_PARAMETERS * file)  // writes proje
       // store the row of data
       AlfatWriteStr( file,temp_str);   //write string to USB
     }
-  }
+  //}
+#if 0
   else
   {
    sprintf(temp_str,"Date, Serial Number, Station, DT[.5],DT[.75],DT[1.00],DT[1.25],DT[1.50],DT[1.75],DT[2.00],DT[2.25],DT[2.50],DT[2.75],DT[3.00],DT[3.25],DT[3.50],DT[3.75],DT[4.00],");               
@@ -1484,6 +1481,7 @@ Bool USB_write_file (  char * project , FILE_PARAMETERS * file)  // writes proje
 */      
     }  
   } 
+ #endif
   isrTIMER_1_Enable();
   return pass;
 }

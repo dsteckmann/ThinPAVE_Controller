@@ -261,36 +261,18 @@ void displayResults ( void )
     }
     else
     {
-      
-      if  ( station_d.mode == NV_RAM_MEMBER_RD (measure_mode) )
+      // if auto store is off, store the result
+      if (( Features.auto_store_on == 0 ) && ( projected_stored == 0 ))
       {
-        // if auto store is off, store the result
-        if (( Features.auto_store_on == 0 ) && ( projected_stored == 0 ))
-        {
-          storeStationData ( project_info.current_project, station_d  );
-          projected_stored = 1; // Don't store the data twice.
-        }
-        else
-        {
-          no_data_to_store_text( );
-          delay_ms ( 1500 );
-        }
+        storeStationData ( project_info.current_project, station_d  );
+        projected_stored = 1; // Don't store the data twice.
       }
       else
       {
-        // warn the user that they must change the measurement mode or select a new project
-        // "Project Storage "
-        // "Measurement Mode"
-        // "Does not Match "
-        // "Current Mode Setting"
-        error_in_measurement_mode_text();
-        output_high(BUZZER); 
-        CyDelay ( 3000 );
-        output_low(BUZZER); 
+        no_data_to_store_text( );
+        delay_ms ( 1500 );
       }
-      
-      
-    }  
+     }  
   }
   else if( (button==ESC) || (button==ENTER) )
   {
@@ -448,33 +430,18 @@ void displayProfileResults ( float * density )
       }
       else
       {
-        if ( station_d.mode == NV_RAM_MEMBER_RD (measure_mode))
+        // if auto store is off, store the result
+        if (( Features.auto_store_on == 0 ) && ( projected_stored == 0 ))
         {
-          // if auto store is off, store the result
-          if (( Features.auto_store_on == 0 ) && ( projected_stored == 0 ))
-          {
-            storeStationData ( project_info.current_project, station_d  );
-            projected_stored = 1; // Don't store the data twice.
-          }
-          else
-          {
-            no_data_to_store_text( );
-            delay_ms ( 1500 );
-          } 
-        }  
+          storeStationData ( project_info.current_project, station_d  );
+          projected_stored = 1; // Don't store the data twice.
+        }
         else
         {
-          // warn the user that they must change the measurement mode or select a new project
-          // "Project Storage "
-          // "Measurement Mode"
-          // "Does not Match "
-          // "Current Mode Setting"
-          error_in_measurement_mode_text();
-          output_high(BUZZER); 
-          CyDelay ( 3000 );
-          output_low(BUZZER); 
-        }  
-      }
+          no_data_to_store_text( );
+          delay_ms ( 1500 );
+        } 
+     }
     }
     else if( (button==ESC) || (button==ENTER) )
     {
@@ -1305,26 +1272,10 @@ void saveStationData (float density, float DT[] )
   {
     if ( Features.auto_store_on )
     { 
-      // See if there is a conflict between the current measurement mode setting and the mode that the project is using
-      if ( station_d.mode == NV_RAM_MEMBER_RD (measure_mode))
-      {
-        strcpy ( station_d.name, project_info.current_station_name );
-        writeStation ( project_info.current_project, project_info.station_index, &station_d );
-        incrementStationNumber ( project_info.current_project );            //increment number of stations within project
-        project_info.station_index     = getStationNumber ( project_info.current_project );
-      }  
-      else
-      {
-        // warn the user that they must change the measurement mode or select a new project
-        // "Project Storage "
-        // "Measurement Mode"
-        // "Does not Match "
-        // "Current Mode Setting"
-        error_in_measurement_mode_text();
-        output_high(BUZZER); 
-        CyDelay ( 3000 );
-        output_low(BUZZER); 
-      }
+      strcpy ( station_d.name, project_info.current_station_name );
+      writeStation ( project_info.current_project, project_info.station_index, &station_d );
+      incrementStationNumber ( project_info.current_project );            //increment number of stations within project
+      project_info.station_index     = getStationNumber ( project_info.current_project );
     }  
   }  
 }

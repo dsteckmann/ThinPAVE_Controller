@@ -3661,22 +3661,4 @@ void error_in_counting_text ( void )
    LCD_PrintAtPositionCentered ( "Error al Contar",LINE2+10 );
 }
 
-void error_in_measurement_mode_text ( void )
-{
-  CLEAR_DISP;
-  if(Features.language_f)
-  {
-    LCD_PrintAtPositionCentered ( "Project Storage",LINE1+10 );
-    LCD_PrintAtPositionCentered ( "Measurement Mode",LINE2+10 );
-    LCD_PrintAtPositionCentered ( "Does not Match",LINE3+10 );
-    LCD_PrintAtPositionCentered ( "Current Mode Setting",LINE4+10 );
-  }
-  else
-  {
-    LCD_PrintAtPositionCentered ( "Project Storage",LINE1+10 );
-    LCD_PrintAtPositionCentered ( "Measurement Mode",LINE2+10 );
-    LCD_PrintAtPositionCentered ( "Does not Match",LINE3+10 );
-    LCD_PrintAtPositionCentered ( "Current Mode Setting",LINE4+10 );
-  }
-  
-}  
+
