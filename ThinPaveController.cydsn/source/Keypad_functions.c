@@ -147,7 +147,7 @@ void  scan_keys ( void )
   // If row = 1 or 2, a key is being pressed. Find the key, and assign it to button variable
   if (( row != 0) || ( remote != 0 ) ) 
   {
-#if 0   
+#if 1   
     //Flags.button_pressed = TRUE;
     if ( bit_test ( column, 0 ) == 0 )
     {
