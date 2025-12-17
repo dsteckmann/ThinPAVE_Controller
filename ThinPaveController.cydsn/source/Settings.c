@@ -849,7 +849,7 @@ void offset(void)  // leads user through process to enable/disable or enter offs
  *
  *****************************************************************************/ 
  
-void select_measurement_mode(void)
+void special_functions(void)
 {
   enum buttons button;
   uint8 mode = NORMAL_DENSITY_MODE;
@@ -890,6 +890,7 @@ void select_measurement_mode(void)
   }    
 
   NV_MEMBER_STORE(measure_mode,mode);  //save settings to EEPROM
+  CyDelay ( 1500 );
   
   if ( mode == PROFILE_DENSITY_MODE )
   {
@@ -902,7 +903,7 @@ void select_measurement_mode(void)
     measureDensity();  
     Spec_flags.recall_flag = FALSE;    
   }  
-  else if ( mode == PROFILE_DENSITY_MODE )
+  else if ( mode == METAL_DENSITY_MODE )
   {
     while ( 1 )
     {
