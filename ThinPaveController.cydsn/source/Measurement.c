@@ -156,13 +156,13 @@ void displayResults ( void )
         if (  NV_RAM_MEMBER_RD (measure_mode ) == METAL_DENSITY_MODE )
         {
           LCD_position (LINE3);
-          count_text(9);  //TEXT// display "MODE:THICKNESS"
+          count_text(9);  //TEXT// display "MODE:METAL"
         }
-        else if ( NV_RAM_MEMBER_RD (measure_mode ) == NORMAL_DENSITY_MODE ) 
-        {
-          LCD_position (LINE3);
-          count_text(8);  //TEXT// display "MODE:NORMAL"
-        }
+      //  else if ( NV_RAM_MEMBER_RD (measure_mode ) == NORMAL_DENSITY_MODE ) 
+      //  {
+       //   LCD_position (LINE3);
+       //   count_text(8);  //TEXT// display "MODE:NORMAL"
+      //  }
            
         break;
     } // end of "Switch"

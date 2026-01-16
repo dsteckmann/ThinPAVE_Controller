@@ -33,7 +33,6 @@
 extern float convertKgM3DensityToUnitDensity ( float value_in_kg, uint8_t units );
 extern  uint8_t getCalibrationDepth ( uint8_t depth_inches );
 extern uint32 getSerialNumber ( void );
-extern void select_measurement_mode(void);
 
 /************************************* EXTERNAL VARIABLE AND BUFFER DECLARATIONS  *************************************/
 project_info_t project_info;

@@ -643,17 +643,17 @@ void measurePulsesForDensity ( uint32_t * density_2_count, uint32_t * density_1_
   if ( mode == METAL_DENSITY_MODE )
   {
   LCD_position (LINE3);
-  count_text(9);  //TEXT// display "MODE:THICKNESS"
+  count_text(9);  //TEXT// display "MODE:METAL"
   }
-  else if ( mode == NORMAL_DENSITY_MODE ) 
-  {
-  LCD_position (LINE3);
-  count_text(8);  //TEXT// display "MODE:NORMAL"
-  }
+//  else if ( mode == NORMAL_DENSITY_MODE ) 
+//  {
+//  LCD_position (LINE3);
+//  count_text(8);  //TEXT// display "MODE:NORMAL"
+//  }
   else if ( mode == PROFILE_DENSITY_MODE ) 
   {
     LCD_position (LINE3);
-    count_text(10);  //TEXT// display "MODE:NORMAL"
+    count_text(10);  //TEXT// display "MODE:PROFILE"
   }
   
   CyDelay ( 1500 );

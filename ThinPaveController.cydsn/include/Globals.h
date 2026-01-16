@@ -113,9 +113,10 @@
 #define NORMAL_DENSITY_MODE  1  
 #define METAL_DENSITY_MODE   2    
 #define PROFILE_DENSITY_MODE 3      
- 
-#define RATIO_UPPER  0.465
-#define RATIO_LOWER  0.225
+
+
+#define RATIO_UPPER  0.45
+#define RATIO_LOWER  0.25
   
 #define DENSITY_OFFSET_BIT     1<<0
 #define INSTR_GAUGE_BIT        0

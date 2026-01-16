@@ -2586,7 +2586,7 @@ void count_text(BYTE source)
       case  5: _LCD_PRINT("  %MAX:"); break;
       case  6: _LCD_PRINT("%Voids:"); break;
       case  7: _LCD_PRINT("THICKNESS:"); break; 
-      case  8: _LCD_PRINT("MODE: NORMAL"); break; 
+      case  8: _LCD_PRINT("MODE: DEFAULT DENSITY"); break; 
       case  9: _LCD_PRINT("MODE: METAL"); break;  
       case 10: _LCD_PRINT("MODE: PROFILE"); break;  
    }
