@@ -199,7 +199,6 @@ void gauge_in_bs_text(void);
 void no_data_to_store_text ( void );
 void depth_in_bs_text ( void );
 void depth_in_safe_text ( void );
-
 void auto_depth_on_off_text( );
 void thickness_out_of_range_text(void);
 void press_for_Stat ( void );
@@ -214,6 +213,7 @@ void Recharge_Battery_text ( BYTE position );
 void error_in_measurement_mode_text ( void );
 void metal_modes_start_text();
 void profile_recall_text();
+void count_test_select_display( void );
 #endif
 
 

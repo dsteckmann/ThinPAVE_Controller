@@ -272,6 +272,7 @@ void settings_menu_display(uint8_t menu_trk)   // display for the main menu
      {
         case 1: 
              _LCD_PRINT("1. Fecha y Hora     ");     // DATE TIME 
+              LCD_position(LINE2);
              _LCD_PRINT("2. Alarma En. / Ap  ");  // BUZZER ON/OFF
              break;    
        
@@ -288,7 +289,7 @@ void settings_menu_display(uint8_t menu_trk)   // display for the main menu
             break;
         
       case 4:    
-            _LCD_PRINT( "7. GPS              ");        // GPS
+            _LCD_PRINT( "7. GPS En. / Ap.   ");        // GPS
             LCD_position(LINE2);
             _LCD_PRINT( "8. Numero de Serie  ");        // Serial Number           
             break;    
@@ -443,14 +444,14 @@ void diag_menu_display( uint8_t menu_trk)
             break;      
       
         case 7:
-            _LCD_PRINT("13. SD Card Test   ");
+            _LCD_PRINT("13. SD Card Test    ");
             LCD_position(LINE2);
-            _LCD_PRINT("14. Extended Counts");
+            _LCD_PRINT("14. Extended Counts ");
             break;
         case 0:
-            _LCD_PRINT("15.  Memory Reset   ");
+            _LCD_PRINT("15. Memory Reset    ");
             LCD_position(LINE2);
-            _LCD_PRINT("16. Source Pos.    ");
+            _LCD_PRINT("16. Source Pos.     ");
             break;              
             
           
@@ -464,15 +465,14 @@ void diag_menu_display( uint8_t menu_trk)
         case 1:    
             _LCD_PRINT("1.Volt. de la bater.");     
             LCD_position(LINE2);      
-            _LCD_PRINT("2.Conteos extendidos");
-            break;    
+            _LCD_PRINT("2.Temperatura       ");     
         case 2:    
-            _LCD_PRINT("3.Temperatura       ");  
-            LCD_position(LINE2);          
-            _LCD_PRINT("4.Restablecer memor.");
+            _LCD_PRINT("3. Prueba estadist. ");      // STAT TEST
+            LCD_position(LINE2);
+            _LCD_PRINT("4. Prueba de deriva ");      // DRIFT TESTT   
             break;   
         case 3:
-            _LCD_PRINT("5.Posic. de la var. ");
+             _LCD_PRINT("5. Revisar EST Cnts");        // review standard counts 
             LCD_position(LINE2);
             _LCD_PRINT("6.Prueba del teclado");      
             break;           
@@ -493,11 +493,16 @@ void diag_menu_display( uint8_t menu_trk)
             _LCD_PRINT("12.Actual. firmware");      
             break;      
       
-        case 0:
+        case 7:
             _LCD_PRINT("13.Prueba tarj. SD");
             LCD_position(LINE2);
-            _LCD_PRINT("                    ");
-            break;      
+           _LCD_PRINT("14.Conteos extendidos");
+            break; 
+        case 0:
+            _LCD_PRINT("15.Restablecer memor.");
+            LCD_position(LINE2);
+            _LCD_PRINT("16. Posic. de la var.");
+            break;     
           
       default: break; 
     }
@@ -2868,13 +2873,35 @@ void count_test_txt( void )
   else
   {   
       LCD_position(LINE1);
-      _LCD_PRINT("  Press START for   ");        
+      _LCD_PRINT("    Pulse <START>   ");        
       LCD_position(LINE2);
-      _LCD_PRINT("  30 s. Tube Test   ");        
+      _LCD_PRINT("30 s. prueba de tubo");        
       LCD_position(LINE4);
       _LCD_PRINT("  <ESC> para Salir  ");    
   }                 
   
+}
+
+
+void count_test_select_display( void )
+{
+  CLEAR_DISP;
+  if(Features.language_f)
+  {
+    LCD_position(LINE1);    
+    _LCD_PRINT("1. SYS1 SYS2 Test   ");     
+    LCD_position(LINE2);      
+    _LCD_PRINT("2. 6 Tube Test      ");
+  }
+  else
+  {
+      LCD_position(LINE1);    
+    _LCD_PRINT("1. SYS1 SYS2 Prueba  ");     
+    LCD_position(LINE2);      
+    _LCD_PRINT("2. Prueba de 6 tubos ");
+  
+  }
+ 
 }
 
 
@@ -2950,7 +2977,7 @@ void press_enter_txt(){
   }
   else{
   LCD_position(LINE4); 
-  _LCD_PRINT("    PULSE INTRO    "); 
+  _LCD_PRINT("    PULSE <ENTER>   -"); 
   }
 }
 
@@ -3048,17 +3075,38 @@ void auto_depth_on_off_text( )
   CLEAR_DISP;
   if(Features.auto_depth == TRUE)                              
   {        
-    LCD_position (LINE1);
-    _LCD_PRINT("AutoDepth ON");        
-    LCD_position (LINE2);
-    _LCD_PRINT("Want to Disable?");
+    if(Features.language_f)
+    {
+      LCD_position (LINE1);
+      _LCD_PRINT("AutoDepth ON");        
+      LCD_position (LINE2);
+      _LCD_PRINT("Want to Disable?");
+    }
+    else
+    {
+      LCD_position (LINE1);
+      _LCD_PRINT("Auto. Profundidad EN");        
+      LCD_position (LINE2);
+      _LCD_PRINT("Quiero Deshabilitar? ");
+    }
   }
   else
   {
-    LCD_position (LINE1);
-    _LCD_PRINT("AutoDepth OFF");             
-    LCD_position (LINE2);
-    _LCD_PRINT("Want to Enable?");
+    if(Features.language_f)
+    { 
+      LCD_position (LINE1);
+      _LCD_PRINT("AutoDepth OFF");             
+      LCD_position (LINE2);
+      _LCD_PRINT("Want to Enable?");
+    }
+    else
+    {
+      LCD_position (LINE1);
+      _LCD_PRINT("Auto. Prof. Apagado ");             
+      LCD_position (LINE2);
+      _LCD_PRINT("                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           Quieres habilitarlo?");
+    
+    }
    }
    
 }

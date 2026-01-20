@@ -337,6 +337,9 @@ void print_menu(void)  // controls the project menu (PROJECT button initiates)
     SDstop(null);
   }
 }
+
+
+
 /******************************************************************************
  *  Name: 
  *  PARAMETERS: 
@@ -345,7 +348,7 @@ void print_menu(void)  // controls the project menu (PROJECT button initiates)
  *****************************************************************************/ 
 void diag_menu(void)
 {
-  uint8_t menu_track = 1, menu_n = 7, selection;    
+  uint8_t menu_track = 1, menu_n = 8, selection;    
   enum buttons button;
   
   in_menu = TRUE;
@@ -390,13 +393,11 @@ void diag_menu(void)
       {
         case  1:  batt_volt();  
                   break;  // monitor battery voltage 
-        case  2:  extended_drift_test(); 
-                  break;
-        case  3:  check_temp(1); 
+        case  2:  check_temp(1); 
                   break;  // monitor gauge temperature
-        case  4:  memory_reset();  
-                  break;  // reset memory to default settings               
-        case  5:  check_depth(); 
+        case  3:  stat_test(); // stat test
+                  break;      
+        case  4:  drift_test(); // drift test
                   break;
         case  6:  key_pad_test();
                   break;
@@ -414,15 +415,12 @@ void diag_menu(void)
                   break;      
         case  13: sd_card_menu();
                   break;
-        case 14:  do    //start another count if enter is pressed
-                  { 
-                    Spec_flags.recall_flag = FALSE;
-                    measurePulses6Tubes( ) ;
-                  } while ( getLastKey() != ESC );
-                  
-                  Flags.button_pressed = TRUE;
-                  break;
-
+        case  14:  extended_drift_test(); 
+                  break;        
+        case  15:  memory_reset();  
+                  break;  // reset memory to default settings               
+        case  16:  check_depth(); 
+                  break;        
        default: break;
       }
       if(button==ESC)
@@ -433,3 +431,4 @@ void diag_menu(void)
     }      
   }  
 }
+

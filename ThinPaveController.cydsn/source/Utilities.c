@@ -688,9 +688,10 @@ void raw_count_test (void )
   uint32_t density1_cnt = 0;
   
   enum buttons button;
-    
-  // Press START to take 10 second count
-  count_test_txt();
+  
+  count_test_select_display( );
+  //1. SYS1 SYS2 Test 
+  //2. 6 Tube Test  
   
   while(1)
   {
@@ -699,29 +700,56 @@ void raw_count_test (void )
     {
       return;
     }
-    else if ( button == ENTER )
+    else if ( button == 1 || button == 2 )
     {
       break;
     }
   }
   
-  CLEAR_DISP;
-  Spec_flags.self_test = FALSE;
-  self_test_text(2);  // display "     Tube Test\n    In Progress" on LINE2 and LINE3    
-
-  // run count for 30 seconds
-  measurePulses ( LINE3, 30, &density2_cnt, &density1_cnt);  
- 
-  Spec_flags.self_test = FALSE;
-  
-  display_count_text ( density1_cnt, density2_cnt );
-
-  while(1)
+  if ( button == 2 )
+  { 
+    do    //start another count if enter is pressed
+    { 
+       Spec_flags.recall_flag = FALSE;
+       measurePulses6Tubes( ) ;
+    } while ( getLastKey() != ESC );
+  } 
+  else
   {
-    button = getKey( TIME_DELAY_MAX );
-    break;
-  }
 
+    // Press START to take 10 second count
+    count_test_txt();
+    
+    while(1)
+    {
+      button = getKey( TIME_DELAY_MAX );
+      if ( button == ESC )
+      {
+        return;
+      }
+      else if ( button == ENTER )
+      {
+        break;
+      }
+    }
+    
+    CLEAR_DISP;
+    Spec_flags.self_test = FALSE;
+    self_test_text(2);  // display "     Tube Test\n    In Progress" on LINE2 and LINE3    
+
+    // run count for 30 seconds
+    measurePulses ( LINE3, 30, &density2_cnt, &density1_cnt);  
+   
+    Spec_flags.self_test = FALSE;
+    
+    display_count_text ( density1_cnt, density2_cnt );
+
+    while(1)
+    {
+      button = getKey( TIME_DELAY_MAX );
+      break;
+    }
+  }
 }
 
 /******************************************************************************
