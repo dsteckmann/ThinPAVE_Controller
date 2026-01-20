@@ -63,7 +63,7 @@ void main_menu(void)  // controls the main menu, (MENU button initiates)
 {
  
 //#if(GAUGETYPE==1)
- uint8_t menu_track = 1, menu_n = 9, selection;       
+ uint8_t menu_track = 1, menu_n = 3, selection;       
 
  enum buttons button;
  
@@ -98,10 +98,10 @@ void main_menu(void)  // controls the main menu, (MENU button initiates)
       else if ( button <= 9)                // selection was made
       { 
         selection = button;           
-        if(selection <= 2)                  // first button was a 1, wait for second button for 1 sec.
+        if(selection == 2)                  // first button was a 1, wait for second button for 1 sec.
         {
           button = getKey (1000);
-          
+              
           if( button <= 9 )
           {
             selection = selection*10 + button;
@@ -116,25 +116,13 @@ void main_menu(void)  // controls the main menu, (MENU button initiates)
                     break;
           
           case  2:  offset();                         break;  // dense offsets
-          case  3:  enable_disable_features('S');     break;  // auto_scroll
-          case  4:  enable_disable_features('L');     break;  // LCD_backlight
-          case  5:  stat_test();                      break;  // run stat test
-          case  6:  drift_test();                     break;  // run drift test
-          case  7:  enable_disable_features('G');     break;  // GPS
-          case  8:  diag_menu();                      break;  // go to diagnostic menu
-          case  9:  review_std_counts();              break;  // review last 30 standard counts
-          case 10:  select_language();                break;  // select between English and Spanish        
-          case 11:  set_units();                      break;  // select English or SI units
-          case 12:  standCountMode();                 break;  // avg_std_mode or decay mode
-          case 13:  serial_number(false);             break;  // view, reset serial number
-          case 14:  enterTimeDate();                  break;  // enter clock time
-          case 15:  enable_disable_features('B');     break;  // Buzzer
-          case 16:  enter_cal_const();                break;  // manually enter calibration constants from gauge   
-          case 17:  enable_disable_features('D');     break;  // auto depth 
-          case 18:  special_functions();        break;  // Main mode, Metal Density, Profile
+          case  3:  settings_menu();                  break;  // go to diagnostic menu
+          case  4:  enter_cal_const();                break;  // manually enter calibration constants from gauge   
+          case  5:  diag_menu();                      break;  // go to diagnostic menu
           case 27:  SendBleConstants(0x79);           break;  // CMD_SEND_CC
           case 22:  SendBleSn();                      break;  //
           case 21:  select_mode();                    break;  // Smart MC Mode
+          default:break;
         }
      }
       
@@ -147,6 +135,81 @@ void main_menu(void)  // controls the main menu, (MENU button initiates)
     } // end while loop     
 
 }
+
+
+/******************************************************************************
+ *  Name: 
+ *  PARAMETERS: 
+ *  DESCRIPTION:  
+ *  RETURNS: 
+ *****************************************************************************/ 
+void settings_menu(void)
+{
+  uint8_t menu_track = 1, menu_n = 6, selection;    
+  enum buttons button;
+  
+  in_menu = TRUE;
+  
+  while(1)                    // only exit menu when ESC is pressed
+  { 
+    settings_menu_display(menu_track);
+    in_menu = FALSE;
+    while(1)
+    {
+      button = getKey( TIME_DELAY_MAX );
+      if((button <= 11) || (button == ESC) || (button == MENU))
+      {
+          break;
+      }    
+    }          
+    if((button == ESC) || (button == MENU))             // ESC->ready screen, MENU->main menu
+    {
+        break;  
+    }    
+    else if(button == UP)                 
+    {
+        menu_track = ((menu_track + menu_n) - 1)%menu_n;     
+    }    
+    else if(button == DOWN)                
+    {
+        menu_track = (menu_track + 1)%menu_n;                  
+    }    
+    else if(button <= 9)                // selection was made
+    { 
+      selection = button;    
+      if(selection == 1)                  // first button was a 1, wait for second button for 1 sec.
+      {
+        button = getKey (1000);
+        
+        if( button <= 9 )
+        {
+          selection = selection*10 + button;
+        }
+      }
+      switch(selection)
+      {
+        case  1: enterTimeDate();                  break;  // enter clock time 
+        case  2: enable_disable_features('B');     break;  // Buzzer
+        case  3: enable_disable_features('L');     break;  // LCD_backlight
+        case  4: enable_disable_features('G');     break;  // GPS             
+        case  5: enable_disable_features('D');     break;  // auto depth 
+        case  6: set_units();                      break;  // select English or SI units
+        case  7: serial_number(false);             break;  // view, reset serial number         
+        case  8: enable_disable_features('S');     break;  // auto_scroll
+        case  9: select_language();                break;  // select between English and Spanish   
+        case  10: standCountMode();                 break;  // avg_std_mode or decay mode              
+        case  11: special_functions();        break;  // Main mode, Metal Density, Profile 
+        default: break;
+      }
+      if(button==ESC)
+      {
+          break;
+      }    
+      in_menu = TRUE;
+    }      
+  }  
+}
+
 
 
 /******************************************************************************
