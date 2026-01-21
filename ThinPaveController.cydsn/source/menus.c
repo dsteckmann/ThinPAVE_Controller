@@ -63,7 +63,7 @@ void main_menu(void)  // controls the main menu, (MENU button initiates)
 {
  
 //#if(GAUGETYPE==1)
- uint8_t menu_track = 1, menu_n = 3, selection;       
+ uint8_t menu_track = 1, menu_n = 4, selection;       
 
  enum buttons button;
  
@@ -116,9 +116,12 @@ void main_menu(void)  // controls the main menu, (MENU button initiates)
                     break;
           
           case  2:  offset();                         break;  // dense offsets
-          case  3:  settings_menu();                  break;  // go to diagnostic menu
-          case  4:  enter_cal_const();                break;  // manually enter calibration constants from gauge   
-          case  5:  diag_menu();                      break;  // go to diagnostic menu
+          case  3:  project_menu();                   break;   // Project Menu
+          case  4:  enable_disable_features('L');     break;  // LCD_backlight
+          case  5:  enable_disable_features('G');     break;  // GPS   
+          case  6:  stat_drift_test();                break;
+          case  7:  settings_menu();                  break;  // go to diagnostic menu
+          case  8:  diag_menu();                      break;  // go to diagnostic menu
           case 27:  SendBleConstants(0x79);           break;  // CMD_SEND_CC
           case 22:  SendBleSn();                      break;  //
           case 21:  select_mode();                    break;  // Smart MC Mode
@@ -145,7 +148,7 @@ void main_menu(void)  // controls the main menu, (MENU button initiates)
  *****************************************************************************/ 
 void settings_menu(void)
 {
-  uint8_t menu_track = 1, menu_n = 6, selection;    
+  uint8_t menu_track = 1, menu_n = 5, selection;    
   enum buttons button;
   
   in_menu = TRUE;
@@ -188,17 +191,17 @@ void settings_menu(void)
       }
       switch(selection)
       {
-        case  1: enterTimeDate();                  break;  // enter clock time 
-        case  2: enable_disable_features('B');     break;  // Buzzer
-        case  3: enable_disable_features('L');     break;  // LCD_backlight
-        case  4: enable_disable_features('G');     break;  // GPS             
-        case  5: enable_disable_features('D');     break;  // auto depth 
-        case  6: set_units();                      break;  // select English or SI units
-        case  7: serial_number(false);             break;  // view, reset serial number         
-        case  8: enable_disable_features('S');     break;  // auto_scroll
-        case  9: select_language();                break;  // select between English and Spanish   
-        case  10: standCountMode();                 break;  // avg_std_mode or decay mode              
-        case  11: special_functions();        break;  // Main mode, Metal Density, Profile 
+        case  1: enter_cal_const();                break;  // manually enter calibration constants from gauge          
+        case  2: special_functions();              break;  // Metal Density, Profile 
+        case  3: enterTimeDate();                  break;  // enter clock time 
+        case  4: serial_number(false);             break;  // view, reset serial number             
+        case  5: set_units();                      break;  // select English or SI units
+        case  6: select_language();                break;  // select between English and Spanish           
+        case  7: enable_disable_features('D');     break;  // auto depth 
+        case  8: standCountMode();                 break;  // avg_std_mode or decay mode              
+        case  9: enable_disable_features('B');     break;  // Buzzer        
+        case 10: enable_disable_features('S');     break;  // auto_scroll        
+
         default: break;
       }
       if(button==ESC)
@@ -348,7 +351,7 @@ void print_menu(void)  // controls the project menu (PROJECT button initiates)
  *****************************************************************************/ 
 void diag_menu(void)
 {
-  uint8_t menu_track = 1, menu_n = 8, selection;    
+  uint8_t menu_track = 1, menu_n = 7, selection;    
   enum buttons button;
   
   in_menu = TRUE;
@@ -395,32 +398,33 @@ void diag_menu(void)
                   break;  // monitor battery voltage 
         case  2:  check_temp(1); 
                   break;  // monitor gauge temperature
-        case  3:  stat_test(); // stat test
-                  break;      
-        case  4:  drift_test(); // drift test
+        case  3:  review_std_counts();              break;  // review last 30 standard counts
                   break;
-        case  6:  key_pad_test();
+        case  4:  extended_drift_test(); 
                   break;
-        case  7:  USB_store_test();
+        case  5:  memory_reset();  
+                  break;  // reset memory to default settings                       
+        case  6:  check_depth(); 
+                  break;         
+        case  7:  key_pad_test();
+                  break;
+        case  8:  USB_store_test();
                   break;          
-        case  8:  raw_count_test();
+        case  9:  raw_count_test();
                   break;
-        case  9:  shut_down_test();
+        case  10:  shut_down_test();
                   break;  
-        case  10: light_test();
+        case  11: light_test();
                   break;              
-        case  11: gps_test();
+        case  12: gps_test();
                   break;      
-        case  12: FirmwareMenu();
+        case  13: FirmwareMenu();
                   break;      
-        case  13: sd_card_menu();
+        case  14: sd_card_menu();
                   break;
-        case  14:  extended_drift_test(); 
-                  break;        
-        case  15:  memory_reset();  
-                  break;  // reset memory to default settings               
-        case  16:  check_depth(); 
-                  break;        
+        
+        
+       
        default: break;
       }
       if(button==ESC)

@@ -214,6 +214,7 @@ void error_in_measurement_mode_text ( void );
 void metal_modes_start_text();
 void profile_recall_text();
 void count_test_select_display( void );
+void stat_drift_test_select_display( void );
 #endif
 
 

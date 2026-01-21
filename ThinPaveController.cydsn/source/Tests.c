@@ -488,44 +488,49 @@ void measurePulses ( uint8_t line, uint8_t time1, uint32_t * density_2_count, ui
        }
    }                               
 
-  // loop while waiting for counts
-  if ( checkCountDone() == TRUE )  //count completed 
+  if ( button !=  ESC )      
   {
-    uint8 k = 0;
-    while ( checkCountReceived() == FALSE )
+    // loop while waiting for counts
+    if ( checkCountDone() == TRUE )  //count completed 
     {
-      CyDelay ( 100 );
-      k++; 
-      if ( k > 15 )
-        break;
+      uint8 k = 0;
+      while ( checkCountReceived() == FALSE )
+      {
+        CyDelay ( 100 );
+        k++; 
+        if ( k > 15 )
+          break;
+      }
+      if ( checkCountReceived() == TRUE )
+      {
+       CyDelay ( 100 );
+      }
     }
-    if ( checkCountReceived() == TRUE )
+    
+    
+    if ((checkCountDone() == TRUE ) || ( checkCountReceived() == TRUE ))  //count completed 
     {
-     CyDelay ( 100 );
-    }
-  }
-  
-  
-  if ((checkCountDone() == TRUE ) || ( checkCountReceived() == TRUE ))  //count completed 
-  {
-    density_1_temp  =  getGMPulseCounts_1 (); 
-    density_2_temp  =  getGMPulseCounts_2 (); 
+      density_1_temp  =  getGMPulseCounts_1 (); 
+      density_2_temp  =  getGMPulseCounts_2 (); 
 
-    
-    *density_1_count  = (uint32_t)(density_1_temp/div_by);
-    *density_2_count  = (uint16_t)(density_2_temp/div_by);   
-    
-    if ( !Spec_flags.self_test )
+      
+      *density_1_count  = (uint32_t)(density_1_temp/div_by);
+      *density_2_count  = (uint16_t)(density_2_temp/div_by);   
+      
+      if ( !Spec_flags.self_test )
+      {
+       NV_MEMBER_STORE(D2_CNT_AVG, *density_2_count);
+       NV_MEMBER_STORE(D1_CNT_AVG, *density_1_count);
+      }   
+    }
+    else
     {
-     NV_MEMBER_STORE(D2_CNT_AVG, *density_2_count);
-     NV_MEMBER_STORE(D1_CNT_AVG, *density_1_count);
-    }   
-  }
-  else
-  {
-    // Counts not received error
-    error_in_counting_text();
-    CyDelay ( 2000 );
+      // Counts not received error
+      error_in_counting_text();
+      CyDelay ( 2000 );
+      *density_1_count = 0;
+      *density_2_count = 0;
+    }
   }
   
   if ( button != ENTER )               // either test ended or, esc was pressed to exit
@@ -752,6 +757,8 @@ void measurePulsesForDensity ( uint32_t * density_2_count, uint32_t * density_1_
       // Counts not received from error
       error_in_counting_text();
       CyDelay ( 2000 );
+      *density_1_count = 0;
+      *density_2_count = 0;      
     }
   }
   if ( button != ENTER )               // either test ended or, esc was pressed to exit
@@ -961,7 +968,7 @@ void clearAndStartPulseTimer ( void )
 
 void measurePulsesStandardCount ( uint8_t line, uint32_t * density_count2, uint32_t * density_count1 )  // acquires density counts during tests 
 {
-  uint8_t  LCD_line, sec=0;  //line3+11   
+  uint8_t  LCD_line;  //line3+11   
   uint8_t batt_flag;
   uint32 timer, i;
 
@@ -1005,14 +1012,13 @@ void measurePulsesStandardCount ( uint8_t line, uint32_t * density_count2, uint3
   resetPulseTimers ( );
   PulseCntStrt( 240 ) ;
   
-  i = msTimer + 1000 ;// add one second to time
-  sec = 0;
+  i = 0;
   while ( checkCountDone() == FALSE )
   {       
-     CyDelay ( 50 );
-     
-     if ( timer + 10000 >  msTimer )
-     {
+     CyDelay ( 250 );
+      i++; 
+     if ( i== 40 )                  //turn off backlight after 10 seconds if it's on
+  	 {
        KEY_B_LIGHT_DISABLE();
 		 }; 
     
@@ -1023,47 +1029,59 @@ void measurePulsesStandardCount ( uint8_t line, uint32_t * density_count2, uint3
        break;
      }
     
-     // update every 1 second
-     if ( i < msTimer ) 
-     {
+    if ( checkCountDone() == FALSE ) 
+    {
+       // The one shot counts at 1000HZ.
+       timer = ONE_SHOT_TIMER_ReadCounter (); 
+       timer /= PULSETIMERCLK; 
        LCD_position (LCD_line);
-       _LCD_PRINTF ( "%3u", 240 - (uint8) (++sec));
-       i = msTimer + 1000; // add one second to time
-      } // end of LCD update and keyscan
+       _LCD_PRINTF ( "%3u", 240 - (uint8) timer);
+       
+    } // end of LCD update and keyscan
     
   } 
   
-  if ( checkCountDone() == TRUE )  //count completed 
+  if ( button !=  ESC )      
   {
-    uint8 k = 0;
-    while ( checkCountReceived() == FALSE )
+    if ( checkCountDone() == TRUE )  //count completed 
     {
-      CyDelay ( 100 );
-      k++; 
-      if ( k > 15 )
-        break;
+      uint8 k = 0;
+      while ( checkCountReceived() == FALSE )
+      {
+        CyDelay ( 100 );
+        k++; 
+        if ( k > 15 )
+          break;
+      }
+      if ( checkCountReceived() == TRUE )
+      {
+       CyDelay ( 100 );
+      }
     }
-    if ( checkCountReceived() == TRUE )
+    
+    if ( ( checkCountDone() == TRUE ) && ( checkCountReceived() == TRUE ))
     {
-     CyDelay ( 100 );
+      // read in the counts
+      uint32 density_1_temp  =  getGMPulseCounts_1 (); 
+      uint32 density_2_temp  =  getGMPulseCounts_2 (); 
+      *density_count1  = density_1_temp/32;            
+      *density_count2  = density_2_temp/32;            
+    }  
+    else
+    {
+      // Counts not received from error
+      error_in_counting_text();
+      CyDelay ( 2000 );
+      *density_count1 = 0;
+      *density_count2 = 0;
     }
+ }  
+  
+  if ( button == ESC )               // either test ended or, esc was pressed to exit
+  {           
+    stop_ONE_SHOT_Early();
   }
   
-  if ( ( checkCountDone() == TRUE ) && ( checkCountReceived() == TRUE ))
-  {
-    // read in the counts
-    uint32 density_1_temp  =  getGMPulseCounts_1 (); 
-    uint32 density_2_temp  =  getGMPulseCounts_2 (); 
-    *density_count1  = density_1_temp/32;            
-    *density_count2  = density_2_temp/32;            
-  }  
-  else
-  {
-    // Counts not received from error
-    error_in_counting_text();
-    CyDelay ( 2000 );
-  }
-    
  if ( batt_flag == 1 )
  {
    Flags.bat_volt = 1;
@@ -1182,13 +1200,8 @@ void standard_count_test(void)  // leads user through standard count procedure (
       }  
       else if  (button == ENTER) 
       {
-        if  (  ( NO_ERROR == alfat_error ) )
-        {
-          AlfatStart();   
-          read_RTC ( &date_time_g ); //get time and date, date_unformatted now contains coded date value
-          AlfatStop();   
-        }  
-        
+        read_RTC ( &date_time_g ); //get time and date, date_unformatted now contains coded date value
+ 
         Controls.shut_dwn = TRUE;                         // enable shut down feature when NO is pressed
         if(Controls.LCD_light)                            // ENTER was pressed, continue with test
 		    {
@@ -1374,6 +1387,41 @@ void standard_count_test(void)  // leads user through standard count procedure (
   Flags.stand_flag = FALSE;
   Controls.shut_dwn = TRUE; 
 }
+
+
+// Select Stat or Drift Test
+void stat_drift_test ( void ) 
+{
+  enum buttons button;
+  
+  stat_drift_test_select_display( );
+  //1. Stat Test 
+  //2. Drift Test
+  up_down_select_text(0);  //TEXT// display "Select #, ESC Exit"
+  
+  while(1)
+  {
+    button = getKey( TIME_DELAY_MAX );
+    if ( button == ESC )
+    {
+      return;
+    }
+    else if ( button == 1 || button == 2 )
+    {
+      break;
+    }
+  }
+  
+  if ( button == 2 )
+  {
+    drift_test();
+  }
+  else
+  {
+   stat_test();
+  }
+}
+
 
 
 /******************************************************************************

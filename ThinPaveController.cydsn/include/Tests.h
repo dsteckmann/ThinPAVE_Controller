@@ -15,5 +15,5 @@ void measurePulses ( uint8_t line, uint8_t time1, uint32_t * dens2_count, uint32
 void storeStdCountsToUSB ( Bool display_error );
 void extended_drift_test ( void );
 void storeProfileDensitiesToUSB ( Bool display_error,float* density );
-
+void stat_drift_test ( void ) ;
 #endif

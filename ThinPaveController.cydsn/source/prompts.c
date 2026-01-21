@@ -173,22 +173,28 @@ void main_menu_display(uint8_t menu_trk)   // display for the main menu
     {
       
       case 1: 
-          _LCD_PRINT(" 1. Recall          ");
+          _LCD_PRINT("1. Recall           ");
           LCD_position(LINE2);
-          _LCD_PRINT(" 2. Offset          ");   
+          _LCD_PRINT("2. Offset           ");   
           break;    
-      
+
       case 2: 
-          _LCD_PRINT(" 3. Settings        ");   
+          _LCD_PRINT("3. Projects         ");   
           LCD_position(LINE2);
-          _LCD_PRINT(" 4. Cal. Constants  ");
+          _LCD_PRINT("4. LED Backlight    ");
+          break;             
+          
+      case 3: 
+          _LCD_PRINT("5. GPS              ");   
+          LCD_position(LINE2);
+          _LCD_PRINT("6. Stat/Drift Test  ");
+          break;             
+          
+      case 0: 
+          _LCD_PRINT("7. Settings         ");   
+          LCD_position(LINE2);
+          _LCD_PRINT("8. Diagnostics      ");
           break;    
-        
-      case 0:    
-          _LCD_PRINT(" 5. Diagnostics     ");   
-           LCD_position(LINE2);               
-          _LCD_PRINT(" 6. Projects        ");  
-          break;
    }
   }
    else
@@ -202,16 +208,22 @@ void main_menu_display(uint8_t menu_trk)   // display for the main menu
              break;    
        
        case 2 :
-          _LCD_PRINT("3. Settings         ");         // Settings
+          _LCD_PRINT("3. Proyecto         ");     // Projects
           LCD_position(LINE2);
-          _LCD_PRINT("4. Const. de Calib. ");         // Calibration Constants
+          _LCD_PRINT("4. Iluninacion LCD  ");     // LCD LIGHT 
              break;    
        
-      case 0: 
-          _LCD_PRINT("5. Auto Diagnostico ");      // Diagnostics
+      case 3: 
+          _LCD_PRINT( "5. GPS En./Ap.     ");        // GPS
           LCD_position(LINE2);
-          _LCD_PRINT("6. Proyecto         ");             // Projects
-         break;
+          _LCD_PRINT( "6. Estadist./Deriva ");     // STAT TEST/Drift
+          break;             
+          
+      case 0: 
+          _LCD_PRINT("7. Ajustes          ");   
+          LCD_position(LINE2);
+          _LCD_PRINT("8. Diagnostico      ");
+          break;    
 
      }
    }
@@ -230,79 +242,66 @@ void settings_menu_display(uint8_t menu_trk)   // display for the main menu
     {
       
       case 1: 
-          _LCD_PRINT (" 1. Date/Time       ");
+          _LCD_PRINT ("1. Cal. Constants  ");  
           LCD_position(LINE2);
-          _LCD_PRINT (" 2. Buzzer/Alarm    ");   
+          _LCD_PRINT ("2. Special Functions");          
+  
           break;    
       
       case 2: 
-          _LCD_PRINT (" 3. Backlight       ");   
+          _LCD_PRINT ("3. Date/Time        ");          
           LCD_position(LINE2);
-           _LCD_PRINT(" 4. GPS             ");
+           _LCD_PRINT("4. Serial Number    ");
           break;    
         
       case 3:    
-          _LCD_PRINT (" 5. Auto Depth      ");   
-           LCD_position(LINE2);               
-          _LCD_PRINT (" 6. Set Units       ");  
+           _LCD_PRINT("5. Set Units        ");            
+           LCD_position(LINE2);     
+           _LCD_PRINT("6. Select Language  ");          
           break;
   
       case 4:    
-           _LCD_PRINT(" 7. Serial Number   ");
+          _LCD_PRINT ("7. Auto Depth       ");  
            LCD_position(LINE2);
-           _LCD_PRINT(" 8. Auto Scroll     ");  
-           break; 
-      
-      case 5:    
-           _LCD_PRINT(" 9. Select Language ");
-          LCD_position(LINE2); 
-          _LCD_PRINT ("10. Standard Mode   ");            
+          _LCD_PRINT ("8. Standard Mode    ");               
           break; 
-          
+      
       case 0:    
-           _LCD_PRINT("11.Special Functions");
+         _LCD_PRINT (" 9. Buzzer/Alarm    ");  
           LCD_position(LINE2); 
-          _LCD_PRINT ("                    ");            
-          break;           
-   }
+          _LCD_PRINT("10. Auto Scroll     ");  
+          break; 
+    }
   }
    else
    {
      switch (menu_trk)
      {
-        case 1: 
-             _LCD_PRINT("1. Fecha y Hora     ");     // DATE TIME 
+      case 1: 
+            _LCD_PRINT("1. Const. de Calib. ");   //  Cal constants            
               LCD_position(LINE2);
-             _LCD_PRINT("2. Alarma En. / Ap  ");  // BUZZER ON/OFF
-             break;    
-       
+            _LCD_PRINT("2. Func. especiales ");   // Special Functions
+            break;    
        case 2 :
-             _LCD_PRINT("3. Voluta Auto      ");         // AUTO SCROLL        
+            _LCD_PRINT("3. Fecha y Hora     ");     // DATE TIME 
              LCD_position(LINE2);
-             _LCD_PRINT("4. Iluninacion LCD  ");         // LCD LIGHT 
-             break;    
+            _LCD_PRINT("4. Numero de Serie  ");      // Serial Number                       
+            break;    
        case 3: 
-          
-            _LCD_PRINT( "5. Modo profundidad ");      // Auto depth
+            _LCD_PRINT("5. Unidades         ");       // Set Units
             LCD_position(LINE2);
-            _LCD_PRINT( "6. Unidades         ");             // Set Units
+            _LCD_PRINT("6. Lengua           ");       // Language
             break;
-        
       case 4:    
-            _LCD_PRINT( "7. GPS En. / Ap.   ");        // GPS
+            _LCD_PRINT("7. Modo profundidad ");      // Auto depth
             LCD_position(LINE2);
-            _LCD_PRINT( "8. Numero de Serie  ");        // Serial Number           
+            _LCD_PRINT("8. Modo AVG del EST ");       // AVG STANDARD COUNT MODE
             break;    
-      case 5:    
-             _LCD_PRINT("9. Lengua");                 // Language
+      case 0:    
+            _LCD_PRINT("9. Alarma En. / Ap  ");       // BUZZER ON/OFF   
             LCD_position(LINE2);
-            _LCD_PRINT( "10. Modo AVG del EST");       // AVG STANDARD COUNT MODE
+            _LCD_PRINT("10. Voluta Auto      ");      // AUTO SCROLL      
             break;        
-        case 0:   
-            _LCD_PRINT( "11.Func. especiales ");         // Special Functions
-            LCD_position(LINE2);            
-            _LCD_PRINT( "                    ");      
-            break;    
      }
    }
   if(in_menu)
@@ -416,45 +415,38 @@ void diag_menu_display( uint8_t menu_trk)
             LCD_position(LINE2);      
             _LCD_PRINT("2. Check Temperature");
             break;    
-        case 2:    
-            _LCD_PRINT("3. Stat Test        ");  
-            LCD_position(LINE2);          
-            _LCD_PRINT("4. Drift Test       ");
-            break;   
+       case 2:
+            _LCD_PRINT("3. Review STD Counts");
+            LCD_position(LINE2);
+            _LCD_PRINT("4. Extended Counts  ");            
+             break;           
         case 3:
-            _LCD_PRINT("5. Review STD Counts");
+            _LCD_PRINT("5. Memory Reset     ");            
             LCD_position(LINE2);
-            _LCD_PRINT("6. KEY PAD Test     ");      
-            break;           
-        case 4:
-            _LCD_PRINT("7. USB Store Test   ");
-            LCD_position(LINE2);
-           _LCD_PRINT("8. Count Test       ");      
+            _LCD_PRINT("6. Source Pos.      ");
              break;                   
-        case 5:
-            _LCD_PRINT("9.  Shut Down Test  ");
+        case 4:
+            _LCD_PRINT("7. KEY PAD Test     ");            
             LCD_position(LINE2);
-            _LCD_PRINT("10. Light Test      ");      
+            _LCD_PRINT("8. USB Store Test   ");            
             break;                   
         
-        case 6:
-            _LCD_PRINT("11. GPS Test       ");
+        case 5:
+            _LCD_PRINT(" 9. Tube Count Test ");                  
             LCD_position(LINE2);
-            _LCD_PRINT("12. Update Firmware");      
+            _LCD_PRINT("10. Shut Down Test  ");  
             break;      
       
-        case 7:
-            _LCD_PRINT("13. SD Card Test    ");
+        case 6:
+            _LCD_PRINT("11. Backlight Test  ");                           
             LCD_position(LINE2);
-            _LCD_PRINT("14. Extended Counts ");
+            _LCD_PRINT("12. GPS Test        ");            
             break;
         case 0:
-            _LCD_PRINT("15. Memory Reset    ");
+            _LCD_PRINT("13. Update Firmware ");                
             LCD_position(LINE2);
-            _LCD_PRINT("16. Source Pos.     ");
+            _LCD_PRINT("14. SD Card Test    ");
             break;              
-            
-          
       default: break;  
     }        
   }
@@ -463,46 +455,43 @@ void diag_menu_display( uint8_t menu_trk)
     switch (menu_trk)
     {
         case 1:    
-            _LCD_PRINT("1.Volt. de la bater.");     
+            _LCD_PRINT("1.Volt. de la bater.");      // Battery Voltage
             LCD_position(LINE2);      
-            _LCD_PRINT("2.Temperatura       ");     
+            _LCD_PRINT("2.Temperatura       ");      // Temperature
+            break;
         case 2:    
-            _LCD_PRINT("3. Prueba estadist. ");      // STAT TEST
+            _LCD_PRINT("3.Revisar EST Cnts  ");      // review standard counts 
             LCD_position(LINE2);
-            _LCD_PRINT("4. Prueba de deriva ");      // DRIFT TESTT   
+            _LCD_PRINT("4.Conteos extendidos");      // Extended Counts
             break;   
         case 3:
-             _LCD_PRINT("5. Revisar EST Cnts");        // review standard counts 
+            _LCD_PRINT("5.Restablecer memor.");      // Reset Memory
             LCD_position(LINE2);
-            _LCD_PRINT("6.Prueba del teclado");      
+            _LCD_PRINT("6.Posic. de la var. ");      // Source Position
             break;           
         case 4:
-            _LCD_PRINT("7.Prueba USB        ");
+            _LCD_PRINT("7.Prueba del teclado");      // Keypad Test        
              LCD_position(LINE2);
-            _LCD_PRINT("8.Prueba de conteo  ");      
-             break;                   
+            _LCD_PRINT("8.Prueba USB        ");      // USB Test      
+            break;                   
         case 5:
-            _LCD_PRINT("9.Prueba de apagado");
+            _LCD_PRINT("9. Prueba de conteo  ");      // Tube Count Test   
             LCD_position(LINE2);
-            _LCD_PRINT("10.Prueba de LED   ");      
+            _LCD_PRINT("10.Prueba de apagado");       //Shut down test
             break;                   
         
         case 6:
-            _LCD_PRINT("11.Prueba de GPS   ");
+            _LCD_PRINT("11.Prueba de LED    ");        // Test the LED
             LCD_position(LINE2);
-            _LCD_PRINT("12.Actual. firmware");      
+            _LCD_PRINT("12.Prueba de GPS    ");         // Test the GPS   
             break;      
       
-        case 7:
-            _LCD_PRINT("13.Prueba tarj. SD");
-            LCD_position(LINE2);
-           _LCD_PRINT("14.Conteos extendidos");
-            break; 
         case 0:
-            _LCD_PRINT("15.Restablecer memor.");
+            _LCD_PRINT("13.Actual. firmware ");        // Update Firmware     
             LCD_position(LINE2);
-            _LCD_PRINT("16. Posic. de la var.");
-            break;     
+            _LCD_PRINT("14.Prueba tarj. SD  ");         // Test the SD Card 
+            break; 
+ 
           
       default: break; 
     }
@@ -2900,6 +2889,26 @@ void count_test_select_display( void )
     LCD_position(LINE2);      
     _LCD_PRINT("2. Prueba de 6 tubos ");
   
+  }
+ 
+}
+
+
+void stat_drift_test_select_display( void )
+{
+  CLEAR_DISP;
+  if(Features.language_f)
+  {
+    LCD_position(LINE1);    
+    _LCD_PRINT("1. Stat Test   ");     
+    LCD_position(LINE2);      
+    _LCD_PRINT("2. Drift Test   ");
+  }
+  else
+  {
+    _LCD_PRINT("1. Prueba Estadist. ");      // STAT TEST
+    LCD_position(LINE2);
+    _LCD_PRINT("2. Prueba de Deriva ");      // DRIFT TESTT   
   }
  
 }
